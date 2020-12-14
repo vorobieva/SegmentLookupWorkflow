@@ -15,7 +15,10 @@ Relax the crystal structure while applying coordinate constraints (relax_coordin
 If the goal is to diversify an existing loop, delete a few residues of that loop in the PDB. The DirectSegmentLookup mover will look for "TER" lines in the PDB to close the chain. Several segments can be connected at the same time. The search for segments matching the N- and C- terminii of the gap is exhaustive. Since the diversity of the returned solutions will strictly depend on the N- and C-terminii, it is a good idea to generate several scaffolds with different deletion end points as starting PDBs for the DirectSegmentLookup search. 
 
 # Step2: Run DirectSegmentLookup.
-Run DirectSegmentLookup mover through the Rosetta scripts interface (DirectSegmentLookup.xml) in the context of the monomeric unit! 
+Run DirectSegmentLookup mover through the Rosetta scripts interface (DirectSegmentLookup.xml) in the context of the monomeric subunit! 
 The most important parameter is the RMSD tolerance. A tolerance of 0.5 or less is adequate for loop closure with small ideal turn fragments. A tolerance of 0.75 allows for diversification of the structural fragments. However, it might result in chain breaks that will be fixed later. For every solution returned by the mover, we run DirectSegmentLookup to generate a PSSM and quickly design the sequence on a fixed backbone.
 
-The pyrosetta script "characterize_inserts.py" is used to calculate the secondary structure content of the insert, the number of contact added to the ligand, and other useful metrics. The script generates a pickled dataFrame that is analyzed with the script "analyze_all_inserts.ipynb".
+The pyrosetta script "characterize_inserts.py" is used to calculate the secondary structure content of the insert, the number of contact added to the ligand, clashes with the scaffold and other useful metrics. The script generates a pickled dataFrame that is analyzed with the script "analyze_all_inserts.ipynb".
+
+# Step3: local re-sampling with Hybridize mover.
+Local re-sampling of the insert confomation is done in the context of symmetry. It is done to resolve remaining clashes with the scaffold or with the neighbour subunits, and to optimize the interface between the insert and the scaffold, and between the inserts in the summetric subunits.
