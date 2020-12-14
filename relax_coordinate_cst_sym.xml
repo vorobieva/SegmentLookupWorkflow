@@ -1,0 +1,24 @@
+<ROSETTASCRIPTS>
+    <SCOREFXNS>
+	<ScoreFunction name="SFX1" weights="ref2015" symmetric="1">
+	   <Reweight scoretype="coordinate_constraint" weight="1.0"/>
+	</ScoreFunction>
+    </SCOREFXNS>
+    <RESIDUE_SELECTORS>
+    </RESIDUE_SELECTORS>
+    <TASKOPERATIONS>
+    </TASKOPERATIONS>
+    <FILTERS>
+    </FILTERS>
+    <MOVERS>
+       <SetupForSymmetry name="setup_symm" set_global_symmetry_at_parsetime="1" definition="C7.symm" preserve_datacache="1" keep_pdb_info_labels="1" />
+       <AtomCoordinateCstMover name="coord_cst" />
+       <FastRelax name="relax" scorefxn="SFX1" />
+    </MOVERS>
+    <APPLY_TO_POSE/>
+    <PROTOCOLS>
+       <Add mover="setup_symm" />
+       <Add mover="coord_cst" />
+       <Add mover="relax" />
+    </PROTOCOLS>
+</ROSETTASCRIPTS>

@@ -1,0 +1,22 @@
+<ROSETTASCRIPTS>
+    <SCOREFXNS>
+	<ScoreFunction name="SFX1" weights="ref2015">
+	   <Reweight scoretype="coordinate_constraint" weight="1.0"/>
+	</ScoreFunction>
+    </SCOREFXNS>
+    <RESIDUE_SELECTORS>
+    </RESIDUE_SELECTORS>
+    <TASKOPERATIONS>
+    </TASKOPERATIONS>
+    <FILTERS>
+    </FILTERS>
+    <MOVERS>
+       <AtomCoordinateCstMover name="coord_cst" />
+       <FastRelax name="relax" scorefxn="SFX1" />
+    </MOVERS>
+    <APPLY_TO_POSE/>
+    <PROTOCOLS>
+       <Add mover="coord_cst" />
+       <Add mover="relax" />
+    </PROTOCOLS>
+</ROSETTASCRIPTS>
