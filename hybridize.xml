@@ -1,0 +1,45 @@
+<ROSETTASCRIPTS>
+    <TASKOPERATIONS>
+    </TASKOPERATIONS>
+    <SCOREFXNS>
+        <ScoreFunction name="stage1" weights="score3" symmetric="1">
+            <Reweight scoretype="atom_pair_constraint" weight="0.5"/>
+            <Reweight scoretype="linear_chainbreak" weight="1" />
+	</ScoreFunction>
+        <ScoreFunction name="stage2" weights="score4_smooth_cart" symmetric="1">
+            <Reweight scoretype="atom_pair_constraint" weight="0.5"/>
+        </ScoreFunction>
+        <ScoreFunction name="fullatom" weights="ref2015" symmetric="1">
+            <Reweight scoretype="atom_pair_constraint" weight="1.0"/>
+        </ScoreFunction>
+    </SCOREFXNS>
+    <RESIDUE_SELECTORS>
+	<ResiduePDBInfoHasLabel name="segment" property="segment_lookup" /> #Inserted loop residues have a label in the PDB
+    	<SymmetricalResidue name="sym_segment" selector="segment" />
+    </RESIDUE_SELECTORS>
+    <FILTERS>
+	<ChainBreak chain_num="1" threshold="1" name="chainbreak_posthyb" /> #Check for chainbreaks
+    </FILTERS>
+    <MOVERS>
+        <SetupForSymmetry name="setup_symm" set_global_symmetry_at_parsetime="1" definition="C2.symm" preserve_datacache="1" />
+        <Hybridize name="hybridize" stage1_scorefxn="stage1" add_hetatm="1" hetatm_to_protein_cst_weight="0" fragprob_stage2="0.8" frag_weight_aligned="0.4" stage2_scorefxn="stage2" fa_scorefxn="fullatom"  batch="0"> #In this protocol, a ligand was used (add_hetatm=1). The fragment probabilities were enough to sample loop conformations, resolve clashes and optimize interactions between subunits. Change batch=10 to produce 10 relaxed fullatom models per centroid model generated. 
+            <Template pdb="%%input_pdb%%" weight="1.0" cst_file="AUTO"/> #Use your input PDB as template for this particular protocol. Several templates can be used. 
+	    <DetailedControls start_res="1" stop_res="34" sample_template="0" sample_abinitio="0" /> #The scaffold is fixed and is not modified.
+            <DetailedControls start_res="47" stop_res="132" sample_template="0" sample_abinitio="0"/>
+            <DetailedControls start_res="35" stop_res="46" sample_template="1" sample_abinitio="1"/> #The conformation of the loop is sampled. 
+        </Hybridize>
+        <AddResidueLabel name="segment_label" residue_selector="sym_segment" label="segment_lookup" />
+    	<ExtractAsymmetricUnit name="extract_asu" keep_virtual="0" keep_unknown_aas="0" />
+    </MOVERS>
+    <APPLY_TO_POSE>
+    </APPLY_TO_POSE>
+    <PROTOCOLS>
+	Add mover_name="segment_label" />
+        <Add mover_name="setup_symm" />
+        <Add mover_name="hybridize"/>
+	Add mover_name="extract_asu"/>
+	Add mover_name="segment_label" />
+	<Add filter_name="chainbreak_posthyb" />
+    </PROTOCOLS>
+    <OUTPUT scorefxn="stage1"/> #change if expected output is fullatom.
+</ROSETTASCRIPTS>
