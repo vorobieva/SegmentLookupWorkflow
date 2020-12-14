@@ -21,4 +21,4 @@ The most important parameter is the RMSD tolerance. A tolerance of 0.5 or less i
 The pyrosetta script "characterize_inserts.py" is used to calculate the secondary structure content of the insert, the number of contact added to the ligand, clashes with the scaffold and other useful metrics. The script generates a pickled dataFrame that is analyzed with the script "analyze_all_inserts.ipynb".
 
 # Step3: local re-sampling with Hybridize mover.
-Local re-sampling of the insert confomation is done in the context of symmetry. It is done to resolve remaining clashes with the scaffold or with the neighbour subunits, and to optimize the interface between the insert and the scaffold, and between the inserts in the summetric subunits.
+Local re-sampling of the insert confomation is done in the context of symmetry ("hybridize.xml"). It is done to resolve remaining clashes with the scaffold or with the neighbour subunits, and to optimize the interface between the insert and the scaffold, and between the inserts in the summetric subunits. The conformational re-sampling also helps closing any existing chain breaks. 
