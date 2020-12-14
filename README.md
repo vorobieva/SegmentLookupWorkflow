@@ -16,5 +16,6 @@ If the goal is to diversify an existing loop, delete a few residues of that loop
 
 # Step2: Run DirectSegmentLookup.
 Run DirectSegmentLookup mover through the Rosetta scripts interface (DirectSegmentLookup.xml). 
-The most important parameter is the RMSD tolerance. A tolerance of 0.5 or less is adequate for loop closure with small ideal turn fragments. A tolerance of 0.75 allows for diversification of the structural fragments. 
+The most important parameter is the RMSD tolerance. A tolerance of 0.5 or less is adequate for loop closure with small ideal turn fragments. A tolerance of 0.75 allows for diversification of the structural fragments. However, it might result in chain breaks that will be fixed later. For every solution returned by the mover, we run DirectSegmentLookup to generate a PSSM and quickly design the sequence on a fixed backbone.
+
 
