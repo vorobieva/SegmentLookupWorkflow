@@ -15,5 +15,6 @@ Relax the crystal structure while applying coordinate constraints (relax_coordin
 If the goal is to diversify an existing loop, delete a few residues of that loop in the PDB. The DirectSegmentLookup mover will look for "TER" lines in the PDB to close the chain. Several segments can be connected at the same time. The search for segments matching the N- and C- terminii of the gap is exhaustive. Since the diversity of the returned solutions will strictly depend on the N- and C-terminii, it is a good idea to generate several scaffolds with different deletion end points as starting PDBs for the DirectSegmentLookup search. 
 
 # Step2: Run DirectSegmentLookup.
-
+Run DirectSegmentLookup mover through the Rosetta scripts interface (DirectSegmentLookup.xml). 
+The most important parameter is the RMSD tolerance. A tolerance of 0.5 or less is adequate for loop closure with small ideal turn fragments. A tolerance of 0.75 allows for diversification of the structural fragments. 
 
